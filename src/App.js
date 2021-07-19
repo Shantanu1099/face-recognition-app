@@ -1,4 +1,5 @@
 import React from 'react';
+import { Component } from 'react';
 import Particles from "react-tsparticles";
 // import Particles from 'react-particles-js';
 import Navigation from './Components/Navigation/Navigation';
@@ -62,7 +63,7 @@ const ParticleOverlay = {
         enable: true,
         outMode: "bounce",
         random: false,
-        speed: 6,
+        speed: 3,
         straight: false,
       },
       number: {
@@ -86,23 +87,41 @@ const ParticleOverlay = {
     detectRetina: true,
   
 }
+class App extends Component {
+  constructor(){
+    super();
+    this.state = {
+      input: '',
+    }
+  }
 
-function App() {
-  return (
-    <div className="App">
-      <Particles
-        className="particle-character"
-        id="tsparticles"
-        // init={this.particlesInit}
-        // loaded={this.particlesLoaded}
-        options={ParticleOverlay}
-      />
-      <Navigation />
-      <Logo />
-      <Rank />
-      <ImageLinkForm />
-    </div>
-  );
+  onInputChange = (event) => {
+    console.log(event.target.value);
+  }
+
+  onButtonSubmit = (event) => {
+    console.log('click');
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <Particles
+          className="particle-character"
+          id="tsparticles"
+          // init={this.particlesInit}
+          // loaded={this.particlesLoaded}
+          options={ParticleOverlay}
+        />
+        <Navigation />
+        <Logo />
+        <Rank />
+        <ImageLinkForm 
+          onInputChange = {this.onInputChange}
+          onButtonSubmit = {this.onButtonSubmit}
+        />
+      </div>
+    );
+  }
 }
-
 export default App;
