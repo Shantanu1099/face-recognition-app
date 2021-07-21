@@ -1,12 +1,18 @@
 import React from 'react';
 import { Component } from 'react';
 import Particles from "react-tsparticles";
+import Clarifai from 'clarifai';
 // import Particles from 'react-particles-js';
 import Navigation from './Components/Navigation/Navigation';
 import Logo from './Components/Logo/Logo';
 import Rank from './Components/Rank/Rank';
 import ImageLinkForm from './Components/ImageLinkForm/ImageLinkForm';
+import FaceRecognition from './Components/FaceRecognition/FaceRecognition';
 import './App.css';
+
+const app = new Clarifai.App({
+  apiKey: 'd5e1a9b1a0614bc6bf63da1df513a0f2'
+});
 
 const ParticleOverlay = {
     background: {
@@ -92,6 +98,7 @@ class App extends Component {
     super();
     this.state = {
       input: '',
+      imageUrl: '',
     }
   }
 
@@ -100,7 +107,15 @@ class App extends Component {
   }
 
   onButtonSubmit = (event) => {
-    console.log('click');
+    this.setState({imageUrl : this.state.input})
+    app.models.predict(Clarifai.COLOR_MODEL,"https://samples.clarifai.com/face-det.jpg").then(
+      function(response) {
+        console.log(response)
+      }, 
+      function(err){
+        console.log(err)
+      }
+    );
   }
 
   render() {
@@ -120,6 +135,7 @@ class App extends Component {
           onInputChange = {this.onInputChange}
           onButtonSubmit = {this.onButtonSubmit}
         />
+        <FaceRecognition imageUrl="{this.state.imageUrl}"/>
       </div>
     );
   }
